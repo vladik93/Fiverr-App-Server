@@ -1,8 +1,9 @@
 const express = require('express');
 const cors = require('cors');
-const mysql = require('mysql');
 
 const app = express();
+
+require('./connection');
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
