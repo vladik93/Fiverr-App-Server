@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     
     mysql.query(query, (error, values) => {
         if(error) throw error;
-        res.json(values);
+        res.status(200).json(values);
     })
 });
 
