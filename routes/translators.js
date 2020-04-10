@@ -27,7 +27,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-    let query = "SELECT tr.id, tr.name, tr.description, tr.image, tr.lang_from, IFNULL(langfrom.image, 'http://localhost/translation_app/not-specified.png') AS image_from, tr.lang_to, langto.image AS image_to, tr.price FROM translators AS tr INNER JOIN languages AS langto ON tr.lang_to = langto.id LEFT JOIN languages AS langfrom ON tr.lang_from = langfrom.id WHERE tr.id = ?";
+    let query = "SELECT tr.id, tr.name, tr.description, tr.image, tr.lang_from, IFNULL(langfrom.image, 'http://localhost/translation_app/not-specified.png') AS image_from, tr.lang_to, langto.image AS image_to, tr.price, tr.email, tr.phone FROM translators AS tr INNER JOIN languages AS langto ON tr.lang_to = langto.id LEFT JOIN languages AS langfrom ON tr.lang_from = langfrom.id WHERE tr.id = ?";
     mysql.query(query, [req.params.id], (error, values) => {
         if(error) throw error;
         res.status(200).json(values);
