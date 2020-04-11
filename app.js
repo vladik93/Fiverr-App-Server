@@ -13,6 +13,7 @@ const port = process.env.PORT || 3000;
 
 app.use('/api/languages', require('./routes/languages'));
 app.use('/api/translators', require('./routes/translators'));
+app.use('/api/subscriptions', require('./routes/subscriptions'));
 
 
 
