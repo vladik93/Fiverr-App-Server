@@ -5,9 +5,10 @@ const app = express();
 
 require('./connection');
 
+app.use(cors());
+
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(cors());
 
 const port = process.env.PORT || 3000;
 
