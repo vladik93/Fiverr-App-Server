@@ -1,9 +1,11 @@
 const express = require('express');
 const cors = require('cors');
 
+
 const app = express();
 
 require('./connection');
+require('./models/index');
 
 app.use(cors());
 
