@@ -1,14 +1,42 @@
-const connection = require('../connection');
+const config = require('../config/db.config');
 const Sequelize = require('sequelize');
 
-module.exports = sequelize = new Sequelize({
-    database: 'language_db',
-    username: 'root',
-    password: '',
-    dialect: 'mysql'
+const sequelize = new Sequelize(
+    config.DB,
+    config.USER,
+    config.PASSWORD,
+    {
+        host: config.HOST,
+        dialect: config.dialect,
+        pool: {
+            max: config.pool.max,
+            min: config.pool.min,
+            acquire: config.pool.acquire,
+            idle: config.pool.idle
+        }
+    }    
+);
+
+const db = {};
+
+db.Sequelize = Sequelize;
+db.sequelize = sequelize;
+
+db.user = require('./user.model')(sequelize, Sequelize);
+db.role = require('./role.model')(sequelize, Sequelize);
+
+db.role.belongsToMany(db.user, {
+    through: 'user_roles',
+    foreignKey: 'roleId',
+    otherKey: 'userId'
 });
 
-sequelize
-    .authenticate()
-    .then(() => console.log('Connection has been established'))
-    .catch(error => console.log('Unable to connect to database'));
+db.user.belongsToMany(db.role, {
+    through: 'user_roles',
+    foreignKey: 'userId',
+    otherKey: 'roleId'
+});
+
+db.ROLES = ['user', 'admin', 'moderator'];
+
+module.exports = db;
