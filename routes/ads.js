@@ -15,13 +15,20 @@ counterCondition = () => {
 
 router.get('/', (req, res) => {
     let query = 'SELECT * FROM ads WHERE id = ?';
+    let query2 = 'SELECT * FROM ads';
 
-    mysql.query(query, [counter], (error, result) => {
-        if(error) throw error;
-        res.status(200).json(result);
-        console.log(counter);
-        (counter < 3) ? counter = counter + 1 : counter = 1;
-    })
+    if(req.query.mode === 'counter') {
+        mysql.query(query, [counter], (error, result) => {
+            if(error) throw error;
+            res.status(200).json(result);
+            (counter < 3) ? counter = counter + 1 : counter = 1;
+        })
+    } else {
+        mysql.query(query2, (error, results) => {
+            if(error) throw error;
+            res.status(200).json(results);
+        })
+    }
 })
 
 
