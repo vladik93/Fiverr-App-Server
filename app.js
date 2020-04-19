@@ -20,6 +20,8 @@ app.use('/api/languages', require('./routes/languages'));
 app.use('/api/translators', require('./routes/translators'));
 app.use('/api/subscriptions', require('./routes/subscriptions'));
 app.use('/api/ads', require('./routes/ads'));
+// Auth Routes
+app.use('/api/user', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 
 
