@@ -31,12 +31,4 @@ transporter.on('token', token => {
     console.log('Expires: %s', new Date(token.expires));
 });
 
-const textTemplate = () => {
-    return `<h1>User</h1>
-    <ul>
-        <li>${req.body.userEmai}</li>
-    </ul>`
-}
- 
-exports.transporter = transporter;
-exports.textTemplate = textTemplate;
+module.exports = transporter;
