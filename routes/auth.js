@@ -12,7 +12,7 @@ router.post('/register', async(req, res) => {
     let hashed = await bcrypt.hash(req.body.password, salt);
     let {username, email} = req.body;
 
-    mysql.query(query, [username, email, hashed], (error, result, fields) => {
+    mysql.query(query, [username, email, hashed], (error, result) => {
         if(error) throw error;
         // res.status(200).json(result.insertId);
         mysql.query(statsQuery, [result.insertId], (error, value) => {
