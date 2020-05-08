@@ -38,7 +38,7 @@ router.post('/:id', checkToken, (req, res) => {
                     <li>Translator: ${result[0].transName}</li>
                     <li>Email: ${result[0].transEmail ? result[0].transEmail : 'Not Specified'}</li>
                     <li>Phone: ${result[0].transPhone ? result[0].transPhone : 'Not Specified'}</li>
-                    <li>From: ${result[0].fromLang ? result[0].fomLang : 'Not Specified'}</li>
+                    <li>From: ${result[0].fromLang ? result[0].fromLang : 'Not Specified'}</li>
                     <li>To: ${result[0].toLang ? result[0].toLang : 'Not Specified'}</li>
                 </ul>`
             }
