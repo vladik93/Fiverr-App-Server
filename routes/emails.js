@@ -44,8 +44,12 @@ router.post('/:id', checkToken, (req, res) => {
             }
             transporter.sendMail(mailOptions, (error, info) => {
                 if(error) throw error;
-                res.send(info);
-                console.log(info);
+                let query = 'UPDATE `stats` SET `total_requests` = `total_requests` + 1 WHERE user_id = ?';
+
+                mysql.query(query, [req.user.id], (error, result) => {
+                    if(error) throw error;
+                    res.status(200).json(result);
+                })
             })
         };
         
