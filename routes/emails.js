@@ -4,6 +4,8 @@ const mysql = require('../connection');
 const { checkToken } = require('../middleware/verifyToken');
 const transporter = require('../sender');
 
+// Better place the subscriptions and requests in their own DBs rather than merging them both!!!
+
 router.post('/', (req, res) => {
     let query = 'INSERT INTO emails (`email`, `type`) VALUES (?, ?)';
     mysql.query(query, [req.body.email, process.env.EMAIL_TYPE_1], (error, value) => {
