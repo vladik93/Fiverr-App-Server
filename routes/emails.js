@@ -4,15 +4,6 @@ const mysql = require('../connection');
 const { checkToken } = require('../middleware/verifyToken');
 const transporter = require('../sender');
 
-// Better place the subscriptions and requests in their own DBs rather than merging them both!!!
-
-router.post('/', (req, res) => {
-    let query = 'INSERT INTO emails (`email`, `type`) VALUES (?, ?)';
-    mysql.query(query, [req.body.email, process.env.EMAIL_TYPE_1], (error, value) => {
-        if(error) throw error;
-        res.status(200).json(value);
-    })
-});
 
 
 router.post('/:id', checkToken, (req, res) => {
@@ -47,11 +38,11 @@ router.post('/:id', checkToken, (req, res) => {
             transporter.sendMail(mailOptions, (error, info) => {
                 if(error) throw error;
                 let query = 'UPDATE `stats` SET `total_requests` = `total_requests` + 1 WHERE user_id = ?';
-                let query2 = 'INSERT INTO emails (`email`, `type`, `trans_id`) VALUES (?, ?, ?)';
+                let query2 = 'INSERT INTO emails (`email`, `user_id`, `trans_id`) VALUES (?, ?, ?)';
 
                 mysql.query(query, [req.user.id], (error, value) => {
                     if(error) throw error;
-                    mysql.query(query2, [result[0].userEmail, process.env.EMAIL_TYPE_2, result[0].transId], (error, results) => {
+                    mysql.query(query2, [result[0].userEmail, req.user.id, result[0].transId], (error, results) => {
                         if(error) throw error;
                         res.status(200).json(results);
                     })
