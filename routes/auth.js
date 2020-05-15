@@ -5,19 +5,34 @@ const jwt = require('jsonwebtoken');
 const { checkToken } = require('../middleware/verifyToken');
 
 router.post('/register', async(req, res) => {
-    let query = 'INSERT INTO `users` (`username`, `email`, `password`) VALUES (?, ?, ?)';
+    let query = 'INSERT INTO `users` (`username`, `email`, `password`, `subscribed`) VALUES (?, ?, ?, ?)';
     // let lastId = 'SELECT LAST_INSERT_ID()';
+    let userSelectQuery = 'SELECT * FROM `users` WHERE id = ?';
+    let emailSubQuery = 'INSERT INTO `subscriptions` (`email`) VALUES (?)';
     let statsQuery = 'INSERT INTO `stats` (`user_id`) VALUES (?)';
     let salt = await bcrypt.genSalt(10);
     let hashed = await bcrypt.hash(req.body.password, salt);
-    let {username, email} = req.body;
+    let {username, email, subscribed} = req.body;
 
-    mysql.query(query, [username, email, hashed], (error, result) => {
+    mysql.query(query, [username, email, hashed, subscribed], (error, result) => {
         if(error) throw error;
-        // res.status(200).json(result.insertId);
-        mysql.query(statsQuery, [result.insertId], (error, value) => {
+        mysql.query(userSelectQuery, [result.insertId], (error, user) => {
             if(error) throw error;
-            res.status(200).json(result);
+            // res.status(200).json(result[0].subscribed);
+            if(user[0].subscribed === 1) {
+                mysql.query(emailSubQuery, [user[0].email], (error, result) => {
+                    if(error) throw error;
+                    mysql.query(statsQuery, [user[0].id], (error, value) => {
+                        if(error) throw error;
+                        res.status(200).json(value);
+                    })
+                })
+            } else {
+                mysql.query(statsQuery, [user[0].id], (error, value) => {
+                    if(error) throw error;
+                    res.status(200).json(value);
+                })
+            }
         })
     });
         
