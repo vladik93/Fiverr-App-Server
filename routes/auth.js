@@ -49,12 +49,17 @@ router.post('/login', async(req, res) => {
         } else {
             const result = await bcrypt.compare(password, value[0].password);
             if(result) {
-                value[0].password = null;
-                const payload = { subject: value[0]};
-                const token = await jwt.sign(payload, process.env.JWT_SECRET, {
-                    expiresIn: '1d'
-                });
-                return res.json({token: token, username: value[0].username});
+
+                if(value[0].state === 'banned') {
+                    res.status(403).json({forbidden: 'Current user is banned!'})
+                } else {
+                    value[0].password = null;
+                    const payload = { subject: value[0]};
+                    const token = await jwt.sign(payload, process.env.JWT_SECRET, {
+                        expiresIn: '1d'
+                    });
+                    return res.json({token: token, username: value[0].username});
+                }
             } else {
                 res.status(400).json({message: 'Invalid password'});
             }
