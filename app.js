@@ -4,15 +4,21 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 
+
 const app = express();
 
 require('./connection');
+
+// app.configure(function() {
+//     app.use(express.cookieParser('keyboard cat'));
+//     app.use(express.session({cookie: {maxAge: 60000}}));
+//     app.use(flash());
+// });
 
 app.use(cors());
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-
 
 const port = process.env.PORT || process.env.APP_PORT;
 

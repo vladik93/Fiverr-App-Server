@@ -51,7 +51,7 @@ router.post('/login', async(req, res) => {
             if(result) {
 
                 if(value[0].state === 'banned') {
-                    res.status(403).json({forbidden: 'Current user is banned!'})
+                    res.status(403).json({forbidden: 'Current user is banned!'});
                 } else {
                     value[0].password = null;
                     const payload = { subject: value[0]};
