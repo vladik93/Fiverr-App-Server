@@ -3,7 +3,7 @@ const db = require('../connection');
 const transporter = require('../sender');
 const jwt = require('jsonwebtoken');
 
-router.get('/', (req, res) => {
+router.post('/', (req, res) => {
     let query = 'SELECT * FROM `users` WHERE `email` = ?';
     let { email } = req.body;
 
