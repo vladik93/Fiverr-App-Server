@@ -10,10 +10,16 @@ router.get('/:token', (req, res) => {
     jwt.verify(req.params.token, process.env.JWT_EMAIL_SECRET, (error, payload) => {
         if(error) throw error;
         // res.status(200).json(payload.subject);
-        let query = "UPDATE `users` SET `state` = 'active' WHERE id = ?";
-        mysql.query(query, [payload.subject], (error, value) => {
-            if(error) throw error;
-            res.redirect('http://localhost:4200');
+        let tokenQuery = 'INSERT INTO `tokens` (`token`) VALUES (?)';
+        mysql.query(tokenQuery, [req.params.token], (error, insert) => {
+            if(error) return res.status(403).json({error: 'User already verified'});
+            
+            let query = "UPDATE `users` SET `state` = 'active' WHERE id = ?";
+            mysql.query(query, [payload.subject], (error, value) => {
+                if(error) throw error;
+                res.redirect('http://localhost:4200');
+            })
+            
         })
     })
 })
