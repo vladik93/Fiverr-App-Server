@@ -29,7 +29,7 @@ app.use('/api/subscriptions', require('./routes/subscriptions'));
 app.use('/api/ads', require('./routes/ads'));
 app.use('/api/stats', require('./routes/stats'));
 // Auth Routes
-app.use('/api/user', require('./routes/users'));
+app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/logged', require('./routes/logged'));
 
