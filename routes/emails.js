@@ -25,6 +25,7 @@ router.post('/:id', checkToken, (req, res) => {
                 <ul>
                     <li>User: ${result[0].userName}</li>
                     <li>Email: ${result[0].userEmail}</li>
+                    <li>Content: ${req.body.content}</li>
                 </ul>
                 <h4>Translator</h4>
                 <ul>
@@ -65,4 +66,4 @@ module.exports = router;
 
 
 
-module.exports = router;
+// module.exports = router;
