@@ -8,10 +8,11 @@ const transporter = require('../sender');
 router.post('/:id', checkToken, (req, res) => {
     let query = 'INSERT INTO `emails` (`email`, `user_id`, `trans_id`, `content`) VALUES (?, ?, ?, ?)';
     let queryUpdate = 'UPDATE `stats` SET `total_requests` = `total_requests` + 1 WHERE user_id = ?';
+   
 
-    let { content} = req.body;
+    // let { content} = req.body;
 
-    mysql.query(query, [req.user.email, req.user.id, req.params.id, content], (error, result) => {
+    mysql.query(query, [req.user.email, req.user.id, req.params.id, req.body.content], (error, result) => {
         if(error) throw error;
             
         mysql.query(queryUpdate, [req.user.id], (error, response) => {
@@ -43,6 +44,7 @@ router.post('/:id', checkToken, (req, res) => {
                         </ul>
                     `
                 }
+                console.log(req.body);
 
                 transporter.sendMail(mailOptions, (error, info) => {
                     if(error) throw error;
