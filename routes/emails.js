@@ -26,12 +26,10 @@ router.post('/:id', checkToken, (req, res) => {
                     to: 'vladik.semyonov@gmail.com',
                     subject: 'Translation Request',
                     html: `
-                        <h4>Request</h4>
                         <h4>User</h4>
                         <ul>
                             <li>User: ${email[0].userName}</li>
                             <li>Email: ${email[0].userEmail}</li>
-                            <li>Content: ${email[0].content}</li>
                         </ul>
                         <h4>Translator</h4>
                         <ul>
@@ -41,6 +39,8 @@ router.post('/:id', checkToken, (req, res) => {
                             <li>From: ${email[0].fromLang ? email[0].fromLang : 'Not Specified'}</li>
                             <li>To: ${email[0].toLang ? email[0].toLang : 'Not Specified'}</li>
                         </ul>
+                        <h4>Text</h4>
+                        <p>${email[0].content}</p>
                     `
                 }
                 transporter.sendMail(mailOptions, (error, info) => {
