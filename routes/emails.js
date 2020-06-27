@@ -14,7 +14,6 @@ router.post('/:id', checkToken, (req, res) => {
 
     mysql.query(query, [req.user.email, req.user.id, req.params.id, req.body.content], (error, result) => {
         if(error) throw error;
-            
         mysql.query(queryUpdate, [req.user.id], (error, response) => {
             if(error) throw error;
             
@@ -44,8 +43,6 @@ router.post('/:id', checkToken, (req, res) => {
                         </ul>
                     `
                 }
-                console.log(req.body);
-
                 transporter.sendMail(mailOptions, (error, info) => {
                     if(error) throw error;
                     res.status(200).json(info);
