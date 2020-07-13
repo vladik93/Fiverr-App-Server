@@ -2,6 +2,7 @@ const router = require('express').Router();
 const mysql = require('../connection');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { checkToken } = require('../middleware/verifyToken');
 
 router.post('/register', async(req, res) => {
     let query = 'INSERT INTO `users` (`username`, `email`, `password`) VALUES (?, ?, ?)';
@@ -40,6 +41,10 @@ router.post('/login', async(req, res) => {
         };
         
     })
+});
+
+router.get('/data', checkToken, (req, res) => {
+    res.send('Hello User');
 });
 
 
