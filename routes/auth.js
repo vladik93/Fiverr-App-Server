@@ -10,10 +10,16 @@ router.get('/:token', (req, res) => {
     jwt.verify(req.params.token, process.env.JWT_EMAIL_SECRET, (error, payload) => {
         if(error) throw error;
         // res.status(200).json(payload.subject);
-        let query = "UPDATE `users` SET `state` = 'active' WHERE id = ?";
-        mysql.query(query, [payload.subject], (error, value) => {
-            if(error) throw error;
-            res.redirect('http://localhost:4200');
+        let tokenQuery = 'INSERT INTO `tokens` (`token`) VALUES (?)';
+        mysql.query(tokenQuery, [req.params.token], (error, insert) => {
+            if(error) return res.redirect('http://localhost:4200/reconfirm');
+            
+            let query = "UPDATE `users` SET `state` = 'active' WHERE id = ?";
+            mysql.query(query, [payload.subject], (error, value) => {
+                if(error) throw error;
+                res.redirect('http://localhost:4200');
+            })
+            
         })
     })
 })
@@ -39,7 +45,7 @@ router.post('/register', async(req, res) => {
             const mailOptions = {
                 from: '"DevTest" <vladik.semyonov.dev@gmail.com>',
                 to: user[0].email,
-                subject: 'Verify accound',
+                subject: 'Verify account',
                 html: `<h4>Hello ${user[0].username},</h4>
                 <p>Please validate your account by following the link below</p>
                 <a href='http://localhost:3000/api/auth/${token}'>${token}</a>
