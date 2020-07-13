@@ -32,7 +32,7 @@ router.post('/login', async(req, res) => {
                 const token = await jwt.sign(payload, process.env.JWT_SECRET, {
                     expiresIn: '1d'
                 });
-                return res.json({token});
+                return res.json({token: token, username: value[0].username});
             } else {
                 res.status(400).json({message: 'Invalid password'});
             }
