@@ -4,11 +4,6 @@ const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 
-<<<<<<< HEAD
-=======
-
-const app = express();
->>>>>>> 20-05-20
 
 
 const app = express();
