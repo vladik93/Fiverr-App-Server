@@ -6,7 +6,9 @@ router.get('/userInfo', checkToken, (req, res) => {
    res.status(200).json(req.user)
 });
 
-
+router.post('/:userid/translator/transId', checkToken, (req, res) => {
+   
+});
 
 
 
