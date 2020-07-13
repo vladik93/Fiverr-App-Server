@@ -6,14 +6,21 @@ const { checkToken } = require('../middleware/verifyToken');
 
 router.post('/register', async(req, res) => {
     let query = 'INSERT INTO `users` (`username`, `email`, `password`) VALUES (?, ?, ?)';
+    // let lastId = 'SELECT LAST_INSERT_ID()';
+    let statsQuery = 'INSERT INTO `stats` (`user_id`) VALUES (?)';
     let salt = await bcrypt.genSalt(10);
     let hashed = await bcrypt.hash(req.body.password, salt);
     let {username, email} = req.body;
 
     mysql.query(query, [username, email, hashed], (error, result) => {
         if(error) throw error;
-        res.status(200).json(result);
-    })
+        // res.status(200).json(result.insertId);
+        mysql.query(statsQuery, [result.insertId], (error, value) => {
+            if(error) throw error;
+            res.status(200).json(result);
+        })
+    });
+        
 });
 
 router.post('/login', async(req, res) => {

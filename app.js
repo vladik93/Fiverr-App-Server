@@ -30,10 +30,12 @@ app.use('/api/languages', require('./routes/languages'));
 app.use('/api/translators', require('./routes/translators'));
 app.use('/api/emails', require('./routes/emails'));
 app.use('/api/ads', require('./routes/ads'));
+app.use('/api/stats', require('./routes/stats'));
 // Auth Routes
 app.use('/api/user', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/logged', require('./routes/logged'));
+
 
 
 
