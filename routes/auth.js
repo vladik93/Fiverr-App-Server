@@ -18,12 +18,12 @@ router.post('/register', async(req, res) => {
 
 router.post('/login', async(req, res) => {
     const { email, username, password } = req.body;
-    let query = 'SELECT * FROM `users` WHERE `username` = ? OR `email` = ?';
-    mysql.query(query, [username, email], async(error, value) => {
+    let query = 'SELECT * FROM `users` WHERE `email` = ?';
+    mysql.query(query, email, async(error, value) => {
         if(error) { 
             throw error 
         } else if(value.length === 0) {
-            res.json({message: 'Invalid username or email!'});
+            res.json({message: 'Invalid email!'});
         } else {
             const result = await bcrypt.compare(password, value[0].password);
             if(result) {

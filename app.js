@@ -33,6 +33,7 @@ app.use('/api/ads', require('./routes/ads'));
 // Auth Routes
 app.use('/api/user', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));
+app.use('/api/logged', require('./routes/logged'));
 
 
 
