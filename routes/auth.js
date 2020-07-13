@@ -28,13 +28,11 @@ router.post('/login', async(req, res) => {
             const result = await bcrypt.compare(password, value[0].password);
             if(result) {
                 value[0].password = null;
-                const jsonwebtoken = await jwt.sign({result: value[0]}, process.env.JWT_SECRET, {
-                    expiresIn: '1h'
+                const payload = { subject: value[0]};
+                const token = await jwt.sign(payload, process.env.JWT_SECRET, {
+                    expiresIn: '1d'
                 });
-                return res.json({
-                    message: 'Login Successful',
-                    token: jsonwebtoken
-                });
+                return res.json({token});
             } else {
                 res.status(400).json({message: 'Invalid password'});
             }
