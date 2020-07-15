@@ -1,5 +1,4 @@
 const mysql = require('mysql');
-const config = require('./config/db.config');
 
 const connection = mysql.createPool({
     port: process.env.DB_PORT,

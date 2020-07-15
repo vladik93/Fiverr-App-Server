@@ -5,8 +5,9 @@ const jwt = require('jsonwebtoken');
 
 
 
-
 const app = express();
+
+require('./connection');
 
 // app.configure(function() {
 //     app.use(express.cookieParser('keyboard cat'));
@@ -15,16 +16,6 @@ const app = express();
 // });
 
 app.use(cors());
-
-const db = require('./connection');
-const userDB = require('./models');
-const Role = userDB.role;
-
-userDB.sequelize.sync({force: true}).then(() => {
-    console.log('Drop and Resync User DB');
-    initial();
-})
-
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
